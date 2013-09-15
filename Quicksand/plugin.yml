@@ -1,17 +1,17 @@
 name: Quicksand
-version: 1.3.9.2
+version: 1.3.9.1
 main: me.firebreath15.quicksand.main
 commands:
   quicksand:
     description: QUICKSAND by Firebreath15!
     usage: /quicksand
     permission: quicksand.use
-    permission-message: No Perm!
+    permission-message: No Permission!
   qs:
     description: QUICKSAND by Firebreath15!
     usage: /qs
     permission: quicksand.use
-    permission-message: No Perm!
+    permission-message: No Permission!
 permissions:
   quicksand.use:
     default: true
