@@ -69,6 +69,7 @@ public class main extends JavaPlugin{
 				}
 				if(args.length==1){
 					String a = args[0];
+					
 					if(a.equalsIgnoreCase("setspawn")){
 						if(p.hasPermission("quicksand.setspawn")){
 							double x = p.getLocation().getX();

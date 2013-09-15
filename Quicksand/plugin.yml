@@ -1,5 +1,5 @@
 name: Quicksand
-version: 1.3.9.1
+version: 1.3.9.2
 main: me.firebreath15.quicksand.main
 commands:
   quicksand:
@@ -22,7 +22,7 @@ permissions:
   quicksand.sign:
     default: op
   quicksand.join:
-    default: false
+    default: op
   quicksand.setend:
     default: op
   quicksand.togglemax:
