@@ -20,7 +20,7 @@ public class theRun implements Listener{
 				Location nto = new Location(to.getWorld(),to.getX(),to.getY()-1,to.getZ());
 				if(nto.getBlock().getType()==Material.SAND){
 					Delta d = new Delta();
-					if(d.ifChangeWasOne(e.getFrom().getBlockX(), e.getTo().getBlockX()) || d.ifChangeWasOne(e.getFrom().getBlockZ(), e.getTo().getBlockZ())){
+					if((d.ifChangeWasOne(e.getFrom().getBlockX(), e.getTo().getBlockX()) || d.ifChangeWasOne(e.getFrom().getBlockZ(), e.getTo().getBlockZ())) && (d.ifChangeWasZero(e.getFrom().getBlockY(), e.getTo().getBlockY()))){
 						//if the player moved a whole block in the X or Z position
 						int snext = plugin.getConfig().getInt("sand.next");
 						int tnext = plugin.getConfig().getInt("tnt.next");

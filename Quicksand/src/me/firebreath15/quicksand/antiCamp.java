@@ -12,6 +12,7 @@ public class antiCamp extends BukkitRunnable{
 		plugin=c;
 	}
 	
+	@SuppressWarnings("unused")
 	public void run(){
 		if(plugin.getConfig().getInt("playernum") >= 1){
 			Player[] ops = plugin.getServer().getOnlinePlayers();
@@ -80,7 +81,7 @@ public class antiCamp extends BukkitRunnable{
 					}
 				}
 			}
-			BukkitTask task = new antiCamp(plugin).runTaskLater(plugin, 200);
+			BukkitTask task = new antiCamp(plugin).runTaskLater(plugin, 150);
 		}
 	}
 }
