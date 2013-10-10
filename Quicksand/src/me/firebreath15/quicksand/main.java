@@ -10,6 +10,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 public class main extends JavaPlugin{
+	
+	INVAPI api;
+	
 	public void onEnable(){
 		this.reloadConfig();
 		this.getConfig().set("players", null);
@@ -35,6 +38,8 @@ public class main extends JavaPlugin{
 			this.getConfig().set("maxPlayers.active", false);
 			this.saveConfig();
 		}
+		
+		api = new INVAPI();
 	}
 	public void onDisable(){
 		this.getConfig().set("players", null);
@@ -132,7 +137,8 @@ public class main extends JavaPlugin{
 												World w = this.getServer().getWorld(wn);
 												Location l = new Location(w,x,y,z);
 												p.teleport(l);
-												p.getInventory().clear();
+												api.storePlayerInventory(p.getName());
+												api.storePlayerArmor(p.getName());
 												this.getConfig().createSection("players."+p.getName());
 												this.getConfig().createSection(p.getName());
 												int pn = this.getConfig().getInt("playernum");
@@ -186,6 +192,8 @@ public class main extends JavaPlugin{
 							p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+"Thanks for playing!");
 							findWinner fw = new findWinner(this);
 							fw.findAWinner();
+							api.restorePlayerInventory(p.getName());
+							api.restorePlayerArmor(p.getName());
 						}else{
 							p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"You aren't playing!");
 						}

@@ -28,6 +28,9 @@ public class Teleport {
 				p.setAllowFlight(false);
 				this.makePlayerVisible(p);
 				plugin.saveConfig();
+				
+				plugin.api.restorePlayerInventory(p.getName());
+				plugin.api.restorePlayerArmor(p.getName());
 			}
 		}
 	}

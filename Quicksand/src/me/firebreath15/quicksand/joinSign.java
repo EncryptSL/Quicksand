@@ -39,7 +39,8 @@ public class joinSign implements Listener{
 										World w = plugin.getServer().getWorld(wn);
 										Location l = new Location(w,x,y,z);
 										p.teleport(l);
-										p.getInventory().clear();
+										plugin.api.storePlayerInventory(p.getName());
+										plugin.api.storePlayerArmor(p.getName());
 										plugin.getConfig().createSection("players."+p.getName());
 										plugin.getConfig().createSection(p.getName());
 										int pn = plugin.getConfig().getInt("playernum");
