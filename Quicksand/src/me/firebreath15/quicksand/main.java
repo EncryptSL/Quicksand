@@ -14,7 +14,6 @@ public class main extends JavaPlugin{
 	
 	INVAPI api;
 	
-	
 	public void onEnable(){
 		this.reloadConfig();
 		this.getConfig().set("players", null);
@@ -107,6 +106,8 @@ public class main extends JavaPlugin{
 						if(this.getConfig().contains("lobby.x") && this.getConfig().contains("spawn.x") && this.getConfig().contains("end.x")){
 							if(p.hasPermission("quicksand.join")){
 								if(this.getConfig().getBoolean("isinsession")==false){
+									api.storePlayerArmor(p.getName());
+									api.storePlayerInventory(p.getName());
 									int x = this.getConfig().getInt("lobby.x");
 									int y = this.getConfig().getInt("lobby.y");
 									int z = this.getConfig().getInt("lobby.z");

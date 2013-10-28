@@ -139,7 +139,12 @@ public class blockLogger implements Listener{
 				Bukkit.getServer().broadcastMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+op[i].getName()+" WON the game!");
 				plugin.getConfig().set("players."+op[i].getName(), null);
 				plugin.getConfig().set(op[i].getName(), null);
+				int pn = plugin.getConfig().getInt("playernum");
+				plugin.getConfig().set("playernum", pn-1);
 				plugin.saveConfig();
+				
+				plugin.api.restorePlayerArmor(op[i].getName());
+				plugin.api.restorePlayerInventory(op[i].getName());
 			}
 			
 			if(plugin.getConfig().contains("dead."+op[i].getName())){
@@ -156,6 +161,9 @@ public class blockLogger implements Listener{
 				
 				op[i].setFlying(false);
 				op[i].setAllowFlight(false);
+				
+				plugin.api.restorePlayerArmor(op[i].getName());
+				plugin.api.restorePlayerInventory(op[i].getName());
 				
 				Player[] oop = Bukkit.getServer().getOnlinePlayers();
 				for(int u=0; u<oop.length; u++){

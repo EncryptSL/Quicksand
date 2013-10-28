@@ -29,6 +29,8 @@ public class joinSign implements Listener{
 			if(s.getLine(0).equalsIgnoreCase("[Quicksand]")){
 				if(plugin.getConfig().contains("lobby.x") && plugin.getConfig().contains("spawn.x") && plugin.getConfig().contains("end.x")){
 					if(plugin.getConfig().getBoolean("isinsession")==false){
+						plugin.api.storePlayerArmor(p.getName());
+						plugin.api.storePlayerInventory(p.getName());
 						int x = plugin.getConfig().getInt("lobby.x");
 						int y = plugin.getConfig().getInt("lobby.y");
 						int z = plugin.getConfig().getInt("lobby.z");
