@@ -12,7 +12,7 @@ import org.bukkit.inventory.PlayerInventory;
  * .
  * With code borrowed from TNTRUN by Shevchikden
  */
-
+ 
 public class INVAPI {
 	private HashMap<String, ItemStack[]> plinv = new HashMap<String, ItemStack[]>();
 	private HashMap<String, ItemStack[]> plarmor = new HashMap<String, ItemStack[]>();

@@ -15,7 +15,7 @@ public class logout implements Listener{
 	logout(main c){
 		plugin=c;
 	}
-	
+	 
 	@EventHandler
 	public void onLogout(PlayerQuitEvent e){
 		Player p = e.getPlayer();

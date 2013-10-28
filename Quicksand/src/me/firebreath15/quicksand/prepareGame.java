@@ -18,6 +18,7 @@ public class prepareGame extends BukkitRunnable{
 		newp=np;
 	}
 	
+	
 	@SuppressWarnings("unused")
 	public void run(){
 		if(plugin.getConfig().getInt("playernum") == 2){

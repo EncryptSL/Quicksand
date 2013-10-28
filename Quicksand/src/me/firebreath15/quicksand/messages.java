@@ -8,6 +8,7 @@ public class messages {
 		plugin=c;
 	}
 	
+	
 	public void sendMessageToQuicksandPlayers(String msg){
 		Player[] players = plugin.getServer().getOnlinePlayers();
 		int pn = players.length;

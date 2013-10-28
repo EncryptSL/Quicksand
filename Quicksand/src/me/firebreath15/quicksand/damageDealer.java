@@ -13,6 +13,7 @@ public class damageDealer implements Listener{
 		plugin=c;
 	}
 	
+	
 	@EventHandler
 	public void onPlayerPvp(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player){

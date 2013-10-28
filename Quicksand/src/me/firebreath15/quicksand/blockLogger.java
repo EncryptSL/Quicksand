@@ -19,6 +19,7 @@ public class blockLogger implements Listener{
 		plugin=c;
 	}
 	
+	
 	private HashMap<Integer, Location> toph = new HashMap<Integer, Location>();
 	private HashMap<Integer, Location> tnth = new HashMap<Integer, Location>();
 	private HashMap<Integer, String> type = new HashMap<Integer, String>();

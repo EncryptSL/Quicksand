@@ -19,7 +19,7 @@ public class joinSign implements Listener{
 	joinSign(main c){
 		plugin=c;
 	}
-	
+	 
 	@SuppressWarnings("unused")
 	@EventHandler
 	public void onSignClick(PlayerInteractEvent e){

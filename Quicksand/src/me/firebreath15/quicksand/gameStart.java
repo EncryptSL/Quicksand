@@ -9,6 +9,7 @@ public class gameStart extends BukkitRunnable{
 		plugin=c;
 	}
 	
+	
 	public void run(){
 		plugin.getConfig().set("gamestarted", true);
 		plugin.getConfig().set("isinsession", true);
