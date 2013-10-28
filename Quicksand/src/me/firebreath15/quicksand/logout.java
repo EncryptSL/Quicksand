@@ -26,12 +26,6 @@ public class logout implements Listener{
 			plugin.getConfig().set("playernum", pn-1);
 			plugin.getConfig().set(p.getName(), null);
 			plugin.saveConfig();
-			messages m = new messages(plugin);
-			m.sendMessageToQuicksandPlayers(ChatColor.GREEN+p.getName()+" has left "+ChatColor.RED+"QUICKSAND"+ChatColor.GREEN+".");
-			findWinner fw = new findWinner(plugin);
-			fw.findAWinner();
-			Teleport t = new Teleport(plugin);
-			t.makePlayerVisible(p);
 			double x = plugin.getConfig().getDouble("end.x");
 			double y = plugin.getConfig().getDouble("end.y");
 			double z = plugin.getConfig().getDouble("end.z");
@@ -41,7 +35,6 @@ public class logout implements Listener{
 			p.teleport(l);
 			p.setFlying(false);
 			p.setAllowFlight(false);
-			t.makePlayerVisible(p);
 		}
 	}
 	
@@ -55,12 +48,6 @@ public class logout implements Listener{
 			plugin.getConfig().set("playernum", pn-1);
 			plugin.getConfig().set(p.getName(), null);
 			plugin.saveConfig();
-			messages m = new messages(plugin);
-			m.sendMessageToQuicksandPlayers(ChatColor.GREEN+p.getName()+" has left "+ChatColor.RED+"QUICKSAND"+ChatColor.GREEN+".");
-			findWinner fw = new findWinner(plugin);
-			fw.findAWinner();
-			Teleport t = new Teleport(plugin);
-			t.makePlayerVisible(p);
 			double x = plugin.getConfig().getDouble("end.x");
 			double y = plugin.getConfig().getDouble("end.y");
 			double z = plugin.getConfig().getDouble("end.z");
@@ -70,7 +57,6 @@ public class logout implements Listener{
 			p.teleport(l);
 			p.setFlying(false);
 			p.setAllowFlight(false);
-			t.makePlayerVisible(p);
 		}
 	}
 	

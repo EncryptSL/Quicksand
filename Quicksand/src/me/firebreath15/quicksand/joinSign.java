@@ -28,44 +28,26 @@ public class joinSign implements Listener{
 			Sign s = (Sign)e.getClickedBlock().getState();
 			if(s.getLine(0).equalsIgnoreCase("[Quicksand]")){
 				if(plugin.getConfig().contains("lobby.x") && plugin.getConfig().contains("spawn.x") && plugin.getConfig().contains("end.x")){
-						if(plugin.getConfig().getBoolean("Gracep")==true){
-							if((plugin.getConfig().getBoolean("maxPlayers.active")==true && plugin.getConfig().getInt("maxPlayers.max") <= plugin.getConfig().getInt("playernum")) || (plugin.getConfig().getBoolean("maxPlayers.active")==false)){
-								if(!(plugin.getConfig().contains("players."+p.getName()))){
-									if(!(plugin.getConfig().contains("dead."+p.getName()))){
-										double x = plugin.getConfig().getDouble("lobby.x");
-										double y = plugin.getConfig().getDouble("lobby.y");
-										double z = plugin.getConfig().getDouble("lobby.z");
-										String wn = plugin.getConfig().getString("lobby.world");
-										World w = plugin.getServer().getWorld(wn);
-										Location l = new Location(w,x,y,z);
-										p.teleport(l);
-										plugin.api.storePlayerInventory(p.getName());
-										plugin.api.storePlayerArmor(p.getName());
-										plugin.getConfig().createSection("players."+p.getName());
-										plugin.getConfig().createSection(p.getName());
-										int pn = plugin.getConfig().getInt("playernum");
-										plugin.getConfig().set("playernum", pn+1);
-										plugin.saveConfig();
-										messages m = new messages(plugin);
-										
-										if(pn+1 == 1){
-											plugin.getServer().broadcastMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+p.getName()+" has joined "+ChatColor.YELLOW+"QUICKSAND"+ChatColor.GREEN+"!");
-										}else{
-											m.sendMessageToQuicksandPlayers(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+p.getName()+" has joined "+ChatColor.YELLOW+"QUICKSAND"+ChatColor.GREEN+"!");
-										}										
-										BukkitTask task = new task1(plugin).runTaskLater(plugin, 60);
-									}else{
-										p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"You're dead! You can't rejoin yet!");
-									}
-								}else{
-									p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"You're already playing "+ChatColor.YELLOW+"QUICKSAND "+ChatColor.RED+"!");
-								}
-							}else{
-								p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"The game has reached the max player count. Sorry!");
-							}
-						}else{
-							p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"The game has already begun! Please wait for it to be over.");
-						}
+					if(plugin.getConfig().getBoolean("isinsession")==false){
+						int x = plugin.getConfig().getInt("lobby.x");
+						int y = plugin.getConfig().getInt("lobby.y");
+						int z = plugin.getConfig().getInt("lobby.z");
+						String w = plugin.getConfig().getString("lobby.world");
+						World wo = plugin.getServer().getWorld(w);
+						Location l = new Location(wo,x,y,z);
+						p.teleport(l);
+						int pn = plugin.getConfig().getInt("playernum");
+						plugin.getConfig().set("playernum", pn+1);
+						plugin.getConfig().createSection("players."+p.getName());
+						plugin.saveConfig();
+						
+						BukkitTask prepare = new prepareGame(plugin,p).runTaskLater(plugin, 20);
+						
+						plugin.getServer().getPluginManager().registerEvents(new blockLogger(plugin), plugin);
+						
+					}else{
+						p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"The game is already in session!");
+					}
 				}else{
 					p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.YELLOW+"QUICKSAND "+ChatColor.RED+"hasn't been set up yet! You need a lobby, spawn, and end!");
 				}

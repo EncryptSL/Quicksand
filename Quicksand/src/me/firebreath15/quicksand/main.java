@@ -1,5 +1,6 @@
 package me.firebreath15.quicksand;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,26 +19,12 @@ public class main extends JavaPlugin{
 		this.getConfig().set("players", null);
 		this.getConfig().set("dead", null);
 		this.getConfig().set("playernum", 0);
-		this.getConfig().set("sand", null);
-		this.getConfig().set("gravel", null);
-		this.getConfig().set("cc", null);
-		this.getConfig().set("sand.next", 1);
-		this.getConfig().set("gravel.next", 1);
-		this.getConfig().set("tnt", null);
-		this.getConfig().set("tnt.next", 1);
-		this.getConfig().set("t1done", false);
-		this.getConfig().set("Gracep", true);
-		this.getConfig().set("maxPlayers.max", 10);
+		this.getConfig().set("isinsession", false);
+		this.getConfig().set("gamestarted", false);
 		this.saveConfig();
 		this.getServer().getPluginManager().registerEvents(new damageDealer(this), this);
-		this.getServer().getPluginManager().registerEvents(new theRun(this), this);
 		this.getServer().getPluginManager().registerEvents(new logout(this), this);
 		this.getServer().getPluginManager().registerEvents(new joinSign(this), this);
-		
-		if(!this.getConfig().contains("maxPlayers")){
-			this.getConfig().set("maxPlayers.active", false);
-			this.saveConfig();
-		}
 		
 		api = new INVAPI();
 	}
@@ -45,16 +32,9 @@ public class main extends JavaPlugin{
 		this.getConfig().set("players", null);
 		this.getConfig().set("dead", null);
 		this.getConfig().set("playernum", 0);
-		this.getConfig().set("sand", null);
-		this.getConfig().set("sand.next", 1);
-		this.getConfig().set("tnt", null);
-		this.getConfig().set("tnt.next", 1);
-		this.getConfig().set("gravel", null);
-		this.getConfig().set("gravel.next", 1);
+		this.getConfig().set("isinsession", false);
+		this.getConfig().set("gamestarted", false);
 		this.saveConfig();
-		
-		regenerate r = new regenerate(this);
-		r.restoreArena();
 	}
 	
 	@SuppressWarnings("unused")
@@ -69,7 +49,6 @@ public class main extends JavaPlugin{
 					p.sendMessage(ChatColor.RED+"/quicksand setend "+ChatColor.YELLOW+"- sets the place where players go at the end of the game!");
 					p.sendMessage(ChatColor.RED+"/quicksand join "+ChatColor.YELLOW+"- join QUICKSAND!");
 					p.sendMessage(ChatColor.RED+"/quicksand leave "+ChatColor.YELLOW+"- leave QUICKSAND!");
-					p.sendMessage(ChatColor.RED+"/quicksand togglemax"+ChatColor.YELLOW+"- toggle the 10-player-max.");
 					p.sendMessage(ChatColor.GOLD+"==========[ "+ChatColor.YELLOW+"QUICKSAND "+ChatColor.GOLD+"]==========");
 				}
 				if(args.length==1){
@@ -126,43 +105,25 @@ public class main extends JavaPlugin{
 					if(a.equalsIgnoreCase("join")){
 						if(this.getConfig().contains("lobby.x") && this.getConfig().contains("spawn.x") && this.getConfig().contains("end.x")){
 							if(p.hasPermission("quicksand.join")){
-								if(this.getConfig().getBoolean("Gracep")==true){
-									if((this.getConfig().getBoolean("maxPlayers.active")==true && this.getConfig().getInt("maxPlayers.max") <= this.getConfig().getInt("playernum")) || (this.getConfig().getBoolean("maxPlayers.active")==false)){
-										if(!(this.getConfig().contains("players."+p.getName()))){
-											if(!(this.getConfig().contains("dead."+p.getName()))){
-												double x = this.getConfig().getDouble("lobby.x");
-												double y = this.getConfig().getDouble("lobby.y");
-												double z = this.getConfig().getDouble("lobby.z");
-												String wn = this.getConfig().getString("lobby.world");
-												World w = this.getServer().getWorld(wn);
-												Location l = new Location(w,x,y,z);
-												p.teleport(l);
-												api.storePlayerInventory(p.getName());
-												api.storePlayerArmor(p.getName());
-												this.getConfig().createSection("players."+p.getName());
-												this.getConfig().createSection(p.getName());
-												int pn = this.getConfig().getInt("playernum");
-												this.getConfig().set("playernum", pn+1);
-												this.saveConfig();
-												messages m = new messages(this);
-												
-												if(pn+1 == 1){
-													this.getServer().broadcastMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+p.getName()+" has joined "+ChatColor.YELLOW+"QUICKSAND"+ChatColor.GREEN+"!");
-												}else{
-													m.sendMessageToQuicksandPlayers(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+p.getName()+" has joined "+ChatColor.YELLOW+"QUICKSAND"+ChatColor.GREEN+"!");
-												}										
-												BukkitTask task = new task1(this).runTaskLater(this, 60);
-											}else{
-												p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"You're dead! You can't rejoin yet!");
-											}
-										}else{
-											p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"You're already playing "+ChatColor.YELLOW+"QUICKSAND "+ChatColor.RED+"!");
-										}
-									}else{
-										p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"The game has reached the max player count. Sorry!");
-									}
+								if(this.getConfig().getBoolean("isinsession")==false){
+									int x = this.getConfig().getInt("lobby.x");
+									int y = this.getConfig().getInt("lobby.y");
+									int z = this.getConfig().getInt("lobby.z");
+									String w = this.getConfig().getString("lobby.world");
+									World wo = this.getServer().getWorld(w);
+									Location l = new Location(wo,x,y,z);
+									p.teleport(l);
+									int pn = this.getConfig().getInt("playernum");
+									this.getConfig().set("playernum", pn+1);
+									this.getConfig().createSection("players."+p.getName());
+									this.saveConfig();
+									
+									BukkitTask prepare = new prepareGame(this, p).runTaskLater(this, 20);
+									
+									this.getServer().getPluginManager().registerEvents(new blockLogger(this), this);
+									
 								}else{
-									p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"The game has already begun! Please wait for it to be over.");
+									p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"The game is already in session!");
 								}
 							}else{
 								p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"You don't have permission!");
@@ -172,45 +133,46 @@ public class main extends JavaPlugin{
 						}
 					}
 					if(a.equalsIgnoreCase("leave")){
-						if(this.getConfig().contains("players."+p.getName()) || this.getConfig().contains("dead."+p.getName())){
-							double x = this.getConfig().getDouble("end.x");
-							double y = this.getConfig().getDouble("end.y");
-							double z = this.getConfig().getDouble("end.z");
-							String wn = this.getConfig().getString("end.world");
-							World w = this.getServer().getWorld(wn);
-							Location l = new Location(w,x,y,z);
-							this.getConfig().set("players."+p.getName(), null);
-							int pn = this.getConfig().getInt("playernum");
-							this.getConfig().set("playernum", pn-1);
+						if(this.getConfig().contains("players."+p.getName())){
+							if(this.getConfig().contains("players."+p.getName()) || this.getConfig().contains("dead."+p.getName())){
+								this.getConfig().set("dead."+p.getName(), null);
+								this.getConfig().set("players."+p.getName(), null);
+								int pn = this.getConfig().getInt("playernum");
+								this.getConfig().set("playernum", pn-1);
+								this.getConfig().set(p.getName(), null);
+								this.saveConfig();
+								double x = this.getConfig().getDouble("end.x");
+								double y = this.getConfig().getDouble("end.y");
+								double z = this.getConfig().getDouble("end.z");
+								String wn = this.getConfig().getString("end.world");
+								World w = this.getServer().getWorld(wn);
+								Location l = new Location(w,x,y,z);
+								p.teleport(l);
+								p.setFlying(false);
+								p.setAllowFlight(false);
+							}
+						}
+						if(this.getConfig().contains("dead."+p.getName())){
 							this.getConfig().set("dead."+p.getName(), null);
 							this.saveConfig();
+							
+							int x = this.getConfig().getInt("end.x");
+							int y = this.getConfig().getInt("end.y");
+							int z = this.getConfig().getInt("end.z");
+							String w = this.getConfig().getString("end.world");
+							World wo = this.getServer().getWorld(w);
+							Location l = new Location(wo,x,y,z);
 							p.teleport(l);
-							Teleport t = new Teleport(this);
-							t.makePlayerVisible(p);
-							messages m = new messages(this);
-							m.sendMessageToQuicksandPlayers(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+p.getName()+" has left "+ChatColor.YELLOW+"QUICKSAND"+ChatColor.GREEN+".");
-							p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+"Thanks for playing!");
-							findWinner fw = new findWinner(this);
-							fw.findAWinner();
-							api.restorePlayerInventory(p.getName());
-							api.restorePlayerArmor(p.getName());
-						}else{
-							p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"You aren't playing!");
-						}
-					}
-					if(args[0].equalsIgnoreCase("togglemax")){
-						if(p.hasPermission("quicksand.togglemax")){
-							if(this.getConfig().getBoolean("maxPlayers.active")==true){
-								this.getConfig().set("maxPlayers.active", false);
-								this.saveConfig();
-								p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+"Toggled 10-player-max "+ChatColor.RED+"OFF");
-							}else{
-								this.getConfig().set("maxPlayers.active", true);
-								this.saveConfig();								
-								p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+"Toggled 10-player-max "+ChatColor.RED+"ON");
+							
+							Player[] oop = Bukkit.getServer().getOnlinePlayers();
+							for(int u=0; u<oop.length; u++){
+								oop[u].showPlayer(p);
 							}
-						}else{
-							p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.DARK_RED+"You don't have permission!");
+							
+							p.setFlying(false);
+							p.setAllowFlight(false);
+							
+							p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.GREEN+"Thanks for playing!");
 						}
 					}
 				}
