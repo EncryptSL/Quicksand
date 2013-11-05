@@ -32,6 +32,7 @@ public class blockLogger implements Listener{
 					Delta d = new Delta();
 					Player p = e.getPlayer();
 					if((d.ifChangeWasOne(e.getFrom().getBlockX(), e.getTo().getBlockX()) || d.ifChangeWasOne(e.getFrom().getBlockZ(), e.getTo().getBlockZ())) && (d.ifChangeWasZero(e.getFrom().getBlockY(), e.getTo().getBlockY()))){
+						p.setFoodLevel(20);
 						Location top = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY()-1, p.getLocation().getBlockZ());
 						Location tnt = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY()-2, p.getLocation().getBlockZ());
 						
