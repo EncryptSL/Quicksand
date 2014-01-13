@@ -21,6 +21,10 @@ public class prepareGame extends BukkitRunnable{
 	
 	@SuppressWarnings("unused")
 	public void run(){
+		if(plugin.getConfig().getInt("playernum") == 1){
+			plugin.getServer().getPluginManager().registerEvents(new blockLogger(plugin), plugin);
+		}
+		
 		if(plugin.getConfig().getInt("playernum") == 2){
 			//send players to spawn and start the session so new players cannot join
 			Player[] op = Bukkit.getServer().getOnlinePlayers();
@@ -40,6 +44,7 @@ public class prepareGame extends BukkitRunnable{
 					BukkitTask start = new gameStart(plugin).runTaskLater(plugin, 400);
 				}
 			}
+			
 		}
 		
 		if(plugin.getConfig().getInt("playernum") >= 3){

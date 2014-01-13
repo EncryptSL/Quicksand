@@ -20,9 +20,9 @@ public class blockLogger implements Listener{
 	}
 	
 	
-	private HashMap<Integer, Location> toph = new HashMap<Integer, Location>();
-	private HashMap<Integer, Location> tnth = new HashMap<Integer, Location>();
-	private HashMap<Integer, String> type = new HashMap<Integer, String>();
+	private static HashMap<Integer, Location> toph = new HashMap<Integer, Location>();
+	private static HashMap<Integer, Location> tnth = new HashMap<Integer, Location>();
+	private static HashMap<Integer, String> type = new HashMap<Integer, String>();
 	
 	@EventHandler
 	public void onPlayerRun(PlayerMoveEvent e){
@@ -173,10 +173,10 @@ public class blockLogger implements Listener{
 			}
 		}
 		
-		this.restoreGame(); //we call this after everything else is all said-and-done
+		blockLogger.restoreGame(); //we call this after everything else is all said-and-done
 	}
 	
-	private void restoreGame(){
+	public static void restoreGame(){
 		
 		//restore TNT
 		for(int i=0; i<tnth.size()+1; i++){

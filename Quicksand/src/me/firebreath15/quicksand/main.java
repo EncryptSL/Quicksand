@@ -35,6 +35,7 @@ public class main extends JavaPlugin{
 		this.getConfig().set("isinsession", false);
 		this.getConfig().set("gamestarted", false);
 		this.saveConfig();
+		blockLogger.restoreGame();
 	}
 	
 	@SuppressWarnings("unused")
@@ -121,8 +122,6 @@ public class main extends JavaPlugin{
 									this.saveConfig();
 									
 									BukkitTask prepare = new prepareGame(this, p).runTaskLater(this, 20);
-									
-									this.getServer().getPluginManager().registerEvents(new blockLogger(this), this);
 									
 								}else{
 									p.sendMessage(ChatColor.YELLOW+"[Quicksand] "+ChatColor.RED+"The game is already in session!");
