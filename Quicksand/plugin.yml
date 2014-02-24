@@ -1,6 +1,7 @@
 name: Quicksand
-version: 1.5
-main: me.firebreath15.quicksand.main
+version: 1.5.5
+author: FireBreath15
+main: me.firebreath15.quicksand.QuicksandPlugin
 commands:
   quicksand:
     description: QUICKSAND by Firebreath15!
