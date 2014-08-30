@@ -35,6 +35,7 @@ public class MatchApi
 		Metadata.set(player, "arena", this.arena.getName());
 	}
 
+	@SuppressWarnings("deprecation")
 	public void changeSpectatorMode(Player contestant, boolean enabled)
 	{
 		this.contestants.put(contestant.getName(), !enabled);
@@ -79,6 +80,7 @@ public class MatchApi
 		List<Player> contestants = new ArrayList<Player>();
 
 		for (Entry<String, Boolean> contestant : this.contestants.entrySet()) {
+			@SuppressWarnings("deprecation")
 			Player player = Bukkit.getServer().getPlayer(contestant.getKey());
 			if (player.isOnline()) {
 				contestants.add(player);
