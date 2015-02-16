@@ -21,7 +21,6 @@ public class PlayerApi
 		this.arena = arena;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void restoreInventory(Player player)
 	{
 		String name = player.getName();
@@ -49,7 +48,6 @@ public class PlayerApi
 		player.setVelocity(new Vector(0, 0.25, 0));
 	}
 
-	@SuppressWarnings("deprecation")
 	public void storeInventory(Player player)
 	{
 		PlayerInventory inventory = player.getInventory();
