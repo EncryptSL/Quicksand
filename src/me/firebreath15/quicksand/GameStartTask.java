@@ -20,7 +20,7 @@ public class GameStartTask extends BukkitRunnable
 	{
 		if (this.countdown > 0) {
 			if (this.countdown % 10 == 0 || this.countdown < 10) {
-				this.arena.getSettingsApi().getLocation("spawn").getWorld().playSound(this.arena.getSettingsApi().getLocation("spawn"), Sound.NOTE_PLING, 2, 2);
+				this.arena.getSettingsApi().getLocation("spawn").getWorld().playSound(this.arena.getSettingsApi().getLocation("spawn"), Sound.BLOCK_NOTE_PLING, 2, 2);
 				this.arena.announce(String.valueOf(this.countdown));
 			}
 			this.countdown--;
