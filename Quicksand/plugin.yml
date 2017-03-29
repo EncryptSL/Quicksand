@@ -1,0 +1,10 @@
+name: Quicksand
+version: 2.0.0
+author: FireBreath15
+main: tech.xfyrewolfx.quicksand.Quicksand
+commands:
+  qs:
+  quicksand:
+permissions:
+  quicksand.admin:
+    default: op
